@@ -1,7 +1,9 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { Button, Modal, Form, Dropdown } from "react-bootstrap"
 import axiosService from "../../helpers/axios"
 import PropTypes from "prop-types"
+import { Context } from "../Layout"
+
 
 function UpdateComment(props) {
 
@@ -11,6 +13,8 @@ function UpdateComment(props) {
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
+
+  const { setToaster } = useContext(Context)
 
   const [form, setForm] = useState({
     // author: comment.author.id,
@@ -31,10 +35,22 @@ function UpdateComment(props) {
       .then(() => {
         setForm({body: form.body })
         handleClose()
+        setToaster({
+          type: "success",
+          message: "Comment updated 🚀",
+          show: true,
+          title: "Success!",
+        })
+        setValidated(false)
         refresh()
     })
     .catch(() => {
-      console.log("Error submitting")
+      setToaster({
+        type: "danger",
+        message: "You have a error",
+        show: true,
+        title: "Danger!",
+      })
     })
   }
   return (

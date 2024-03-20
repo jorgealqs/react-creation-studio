@@ -29,7 +29,7 @@ const MoreToggleIcon = React.forwardRef(function MoreToggleIcon({ onClick }, ref
 })
 
 function CreateComment(props) {
-  const { postId, comments, refresh } = props
+  const { postId, comments, refresh, baseURL } = props
   const [avatar, setAvatar] = useState(randomAvatar())
   const [validated, setValidated] = useState(false)
   const [form, setForm] = useState({"body":""})
@@ -38,7 +38,7 @@ function CreateComment(props) {
   const [toastMessage, setToastMessage] = useState("")
   const [toastType, setToastType] = useState("")
 
-  const { toaster, setToaster } = useContext(Context)
+  const { setToaster } = useContext(Context)
   const user = useUserActions().getUser()
 
   function handleSubmit (event) {
@@ -144,7 +144,7 @@ function CreateComment(props) {
             <Card.Title className="d-flex flex-row justify-content-between">
               <div className="d-flex flex-row">
                 <Image
-                  src={randomAvatar()}
+                  src={baseURL+comment.author.avatar}
                   roundedCircle
                   width={48}
                   height={48}

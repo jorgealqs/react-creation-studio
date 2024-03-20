@@ -8,7 +8,7 @@ import {
   MoreOutlined,
 } from "@ant-design/icons"
 import { Image, Card, Dropdown } from "react-bootstrap"
-import { randomAvatar } from "../../utils"
+// import { randomAvatar } from "../../utils"
 import Toaster from "../Toaster"
 import { Link } from "react-router-dom"
 import axiosService from "../../helpers/axios"
@@ -30,12 +30,15 @@ const MoreToggleIcon = React.forwardRef(function MoreToggleIcon({ onClick }, ref
   )
 })
 
-function Post({ post, refresh, isSinglePost }) {
-
-  const user = useUserActions().getUser()
+function Post(props) {
+  const { post, refresh, baseURL, isSinglePost } = props
   const [showToast, setShowToast] = useState(false)
   const [toastMessage, setToastMessage] = useState("")
   const [toastType, setToastType] = useState("")
+  const actionsUser = useUserActions()
+  const user = actionsUser.getUser()
+
+  const avatarUser = post.author.default_avatar === false ? baseURL + post.author.avatar : post.author.avatar
 
   function handleLikeClick (action) {
     axiosService
@@ -73,7 +76,7 @@ function Post({ post, refresh, isSinglePost }) {
           <Card.Title className="d-flex flex-row justify-content-between">
             <div className="d-flex flex-row">
               <Image
-                src={randomAvatar()}
+                src={avatarUser}
                 roundedCircle
                 width={48}
                 height={48}
@@ -177,6 +180,7 @@ function Post({ post, refresh, isSinglePost }) {
 Post.propTypes = {
   post: PropTypes.object.isRequired,
   refresh: PropTypes.func.isRequired,
+  baseURL: PropTypes.string,
   isSinglePost: PropTypes.bool.isRequired,
 }
 

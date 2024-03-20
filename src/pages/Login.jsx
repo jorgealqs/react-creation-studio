@@ -1,24 +1,10 @@
-import { Link } from "react-router-dom"
 import LoginForm from "../components/authentication/LoginForm"
-
 
 function Login(){
   return(
-    <div className="container">
-      <div className="row">
-        <div className="col-md-6 d-flex align-items-center">
-          <div className="content text-center px-4">
-            <h1 className="text-primary">
-              Welcome to Postagram!
-            </h1>
-            <p className="content">
-              Login now and start enjoying! <br />
-              Or if you don&apos;t have an account, please {""}
-              <Link to="/register/">register</Link>.
-            </p>
-          </div>
-        </div>
-        <div className="col-md-6 p-5">
+    <div className="container-fluid">
+      <div className="row justify-content-center">
+        <div className="col-md-10 p-5 mt-5">
           <LoginForm />
         </div>
       </div>

@@ -1,10 +1,13 @@
-import { useState } from "react"
+import { useState, useContext} from "react"
 import { Modal, Dropdown, Button, Form } from "react-bootstrap"
 import axiosService from "../../helpers/axios"
 import PropTypes from "prop-types"
 import useUserActions from "../../hooks/user.actions"
+import { Context } from "../Layout"
 
 function UpdatePost({ post, refresh }) {
+
+  const { setToaster } = useContext(Context)
   const userActions = useUserActions()
   const user = userActions.getUser()
   const [validated, setValidated] = useState(false)
@@ -26,9 +29,15 @@ function UpdatePost({ post, refresh }) {
     }
 
     axiosService
-    .put(`/post/${post.id}/comments/`, data)
+    .put(`/post/${post.id}/update/`, data)
     .then(() => {
       handleClose()
+      setToaster({
+        type: "success",
+        message: "Post updated 🚀",
+        show: true,
+        title: "Success!",
+      })
       refresh()
     })
     .catch((error) => {

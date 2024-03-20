@@ -1,16 +1,16 @@
 import { createContext, useState, useMemo } from "react"
-import PropTypes from "prop-types"  // Importa PropTypes para la validación de tipo
 import Navigationbar from "./Navbar"
 import { ArrowLeftOutlined } from "@ant-design/icons"
 import Toaster from "../components/Toaster"
 import { useNavigate } from "react-router-dom"
+import PropTypes from "prop-types"  // Importa PropTypes
 
 export const Context = createContext("unknown")
 
 function Layout(props) {
 
   const navigate = useNavigate()
-  const { hasNavigationBack } = props
+  const { hasNavigationBack, baseURL } = props
 
   const [toaster, setToaster] = useState({
     title: "",
@@ -24,7 +24,7 @@ function Layout(props) {
   return (
     <Context.Provider value={value}>
       <div>
-        <Navigationbar />
+        <Navigationbar baseURL={baseURL} />
         {hasNavigationBack && (
           <ArrowLeftOutlined
             style={{
@@ -33,7 +33,7 @@ function Layout(props) {
               marginLeft: "5%",
               marginTop: "1%",
             }}
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/")}
           />
         )}
         <div className="container my-2">{props.children}</div>
@@ -52,6 +52,8 @@ function Layout(props) {
 // Agrega validación de tipo para children utilizando PropTypes
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
+  hasNavigationBack: PropTypes.bool,
+  baseURL: PropTypes.string,
 }
 
 export default Layout

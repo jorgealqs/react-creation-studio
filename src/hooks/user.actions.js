@@ -1,5 +1,7 @@
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+// import axiosService from "../helpers/axios"
+import axiosServiceFormData from "../helpers/axiosmultipartformdata"
 
 function useUserActions() {
 
@@ -55,9 +57,8 @@ function useUserActions() {
   // Get the user
   function getUser() {
     const auth = JSON.parse(localStorage.getItem("auth"))
-    return auth && auth.user ? auth.user : null;
+    return auth && auth.user ? auth.user : null
   }
-
 
   // Get the access token
   function getAccessToken() {
@@ -71,6 +72,28 @@ function useUserActions() {
     return auth.refresh
   }
 
+
+// Edit the user
+async function edit(data, userId) {
+  try {
+    // Realizar la solicitud PATCH con FormData
+    const res = await axiosServiceFormData.patch(`${baseURL}/user/${userId}/`, data)
+
+    // Actualizar los datos de usuario en el almacenamiento local
+    const authData = JSON.parse(localStorage.getItem("auth"))
+    if (authData) {
+      localStorage.setItem("auth", JSON.stringify({ ...authData, user: res.data }))
+    }
+
+    // Actualizar el estado de userData con los nuevos datos del usuario
+    setUserData(res.data)
+  } catch (error) {
+    console.error('Error:', error)
+    // Manejar el error
+  }
+}
+
+
   return {
       login,
       register,
@@ -78,6 +101,7 @@ function useUserActions() {
       getUser,
       getAccessToken,
       getRefreshToken,
+      edit,
   }
 
 }
