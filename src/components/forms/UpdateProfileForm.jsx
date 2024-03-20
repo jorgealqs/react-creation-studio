@@ -13,7 +13,6 @@ function UpdateProfileForm(props) {
   const [form, setForm] = useState(profile[0])
   const [error, setError] = useState(null)
   const userActions = useUserActions()
-  const [avatar, setAvatar] = useState()
   const { setToaster } = useContext(Context)
   const avatarUser = form.default_avatar === false ? baseURL + form.avatar : form.avatar
 
